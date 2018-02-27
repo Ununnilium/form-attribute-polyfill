@@ -1,0 +1,15 @@
+{
+  "name": "form-attribute-polyfill",
+  "description": "Polyfill for form attribute which is not supported by MS IE and Edge < 16",
+  "version": "0.0.1",
+  "main": "form-attribute-polyfill.js",
+  "repository": "Ununnilium/form-attribute-polyfill",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "4.18.1"
+  },
+  "files": [
+    "LICENSE",
+    "form-attribute-polyfill.js"
+  ]
+}
