@@ -18,7 +18,7 @@ window.onload = function() {
         return !sampleElementFound;
     }
 
-    // Ideas from jQuery variant https://stackoverflow.com/a/26696165/2372674
+    // Ideas from jQuery form attribute polyfill https://stackoverflow.com/a/26696165/2372674
     function executeFormPolyfill() {
         function appendDataToForm(data, form) {
             Object.keys(data).forEach(function(name) {
@@ -73,11 +73,13 @@ window.onload = function() {
         });
     }
 
+    // Poll for new forms and execute polyfill for them
     function detectedNewForms() {
-        var newForms = document.querySelectorAll('form:not([class="form-already-dectected"])');
+        var ALREADY_DETECTED_CLASS = 'form-already-detected';
+        var newForms = document.querySelectorAll('form:not([class="' + ALREADY_DETECTED_CLASS + '"])');
         if (newForms.length !== 0) {
             Array.prototype.forEach.call(newForms, function (form) {
-                form.className += "form-already-dectected";
+                form.className += ALREADY_DETECTED_CLASS;
             });
             executeFormPolyfill();
         }
@@ -105,9 +107,9 @@ window.onload = function() {
     if (browserNeedsPolyfill()) {
         polyfillCustomEvent();   // IE is missing CustomEvent
 
-        // If submit is not used normally, but replaced with custom JavaScript, this workaround is needed
+        // This workaround is needed if submit is handled by JavaScript instead the browser itself
         // Source: https://stackoverflow.com/a/35155789/2372674
         var eventToDispatch = new CustomEvent("submit", {"bubbles": true, "cancelable": true});
-        detectedNewForms();   // Load jQuery if necessary and execute form attribute polyfill
+        detectedNewForms();   // Poll for new forms and execute form attribute polyfill for new forms
     }
 };
